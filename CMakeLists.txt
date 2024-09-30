@@ -24,3 +24,7 @@ install(TARGETS core
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/core)
 install(EXPORT coreConfig DESTINATION share/core/cmake)
 export(TARGETS core FILE coreConfig.cmake)
+
+file(GLOB_RECURSE TEST_SOURCES "tests/*.cpp")
+add_executable(coreTest ${TEST_SOURCES})
+target_include_directories(coreTest PRIVATE include)
