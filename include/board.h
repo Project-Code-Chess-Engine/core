@@ -16,6 +16,7 @@ extern "C" {
     // the struct that stores the boards
     typedef struct {
         // the bitboards
+        // https://www.chessprogramming.org/Bitboards
         uint64_t boards[9];
     } Board;
 };
