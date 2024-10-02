@@ -27,3 +27,9 @@ void generateKingTable() {
     // Use a bitboard to go through all of the positions and generate the places that the king is able to move.
     // https://www.chessprogramming.org/King_Pattern
 }
+
+uint64_t getPawnMoves(const Board& board, uint64_t position) {
+    // Use the bitboard to get the moves that can be done by pawn
+    // Tip, I would use a capture table and also the information from the enpassant square
+    // The en passant square is a bitboard storing the double pawn move
+}

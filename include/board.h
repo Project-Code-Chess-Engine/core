@@ -57,5 +57,8 @@ static std::array<std::array<uint64_t, 8>, 8> kingTable;
 // generate the table for knights
 void generateKnightTable();
 
-//generate the table for Kings
+// generate the table for Kings
 void generateKingTable();
+
+// gets the moves that can be done by a pawn
+uint64_t getPawnMoves(const Board& board, uint64_t position);
