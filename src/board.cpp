@@ -8,6 +8,7 @@
 // This page explains the way to calculate magics
 
 uint64_t arrBishop[8][8][64] = {{{0}}};
+uint64_t arrRook[8][8][64] = {{{0}}};
 
 // prints the current bitboard to console for debug purposes
 void printbitboard(uint64_t bitboard[64]) {
@@ -27,9 +28,10 @@ void onLoad(){
     // Iterate through each possible position for the pieces to move
     for (int i = 0; i < 8; i++){
         for (int j = 0; j < 8; j++){
-            // Get the current array index
+            // VARIABLE DECLARATION: Find the variables and assign them to bitboards
             uint64_t* bishopBitBoard = arrBishop[i][j];
-            // Loop through all four directions
+            uint64_t* arrRookBitBoard = arrRook[i][j];
+            // BISHOP CALCULATION: Loop through all four diagonal directions
             for (int left = -1; left != 3; left +=2){
                 for (int down = -1; down != 3; down +=2){
                     int curRow = i + left; int curCol = j + down;
@@ -42,8 +44,18 @@ void onLoad(){
                     }
                 }
             }
-            printbitboard(bishopBitBoard);
-            //bishopBitBoard << 7;
+            // ROOK CALCULATION: Loop through all four directions in a straight line
+            for (int x = 0; x < 8; x++){ // Calculates LEFT <-> RIGHT moves
+                if (x != j){
+                    arrRookBitBoard[i * 8 + x] = 1;
+                }
+            }
+            for (int y = 0; y < 8; y++){ // Calculates BOTTOM <-> TOP moves
+                if (y != i){
+                    arrRookBitBoard[y * 8 + j] = 1;
+                }
+            }
+            //printbitboard(arrRookBitBoard);
         }
     }
 }
