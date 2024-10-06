@@ -62,3 +62,9 @@ void generateKingTable();
 
 // gets the moves that can be done by a pawn
 uint64_t getPawnMoves(const Board& board, uint64_t position);
+
+// creates the magic bitboards to storage
+void onLoad();
+
+// prints out the bitboard to the console
+void printbitboard();
