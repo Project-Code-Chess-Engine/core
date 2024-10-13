@@ -7,6 +7,7 @@
 extern "C" {
     // sets up all of the tables
     void initialize();
+    void release();
 
     // an enum to represent the different boards
     enum Piece {
