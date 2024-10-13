@@ -18,11 +18,11 @@
     onLoad(); 
 }*/
 
-TEST_CASE("Start Up", "[table][debug]"){
+/*TEST_CASE("Start Up", "[table][debug]"){
     onLoad();
-}
+}*/
 
-TEST_CASE("Start Up", "[table][latest]"){
+TEST_CASE("Load", "[table][latest]"){
     onLoad();
 }
 
