@@ -28,9 +28,10 @@ void onLoad(){
     // Iterate through each possible position for the pieces to move
     for (int i = 0; i < 8; i++){
         for (int j = 0; j < 8; j++){
+            // SMagic newStruct;
             // VARIABLE DECLARATION: Find the variables and assign them to bitboards
-            uint64_t* bishopBitBoard = arrBishop[i][j];
-            uint64_t* arrRookBitBoard = arrRook[i][j];
+            uint64_t& bishopBitBoard = bishopMagics[i][j].mask;
+            uint64_t& arrRookBitBoard = rookMagics[i][j].mask;//arrRook[i][j];
             // BISHOP CALCULATION: Loop through all four diagonal directions
             for (int left = -1; left != 3; left +=2){
                 for (int down = -1; down != 3; down +=2){

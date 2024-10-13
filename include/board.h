@@ -40,6 +40,7 @@ static std::array<std::array<SMagic, 8>, 8> rookMagics;
 // table to store the bishopMagics
 static std::array<std::array<SMagic, 8>, 8> bishopMagics;
 
+
 // generate the SMagics for rooks
 void findRookMagics();
 
