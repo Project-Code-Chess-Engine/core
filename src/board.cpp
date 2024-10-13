@@ -7,14 +7,14 @@
 // https://www.chessprogramming.org/Looking_for_Magics
 // This page explains the way to calculate magics
 
-uint64_t arrBishop[8][8][64] = {{{0}}};
-uint64_t arrRook[8][8][64] = {{{0}}};
+//uint64_t arrBishop[8][8][64] = {{{0}}};
+//uint64_t arrRook[8][8][64] = {{{0}}};
 
 // prints the current bitboard to console for debug purposes
-void printbitboard(uint64_t bitboard[64]) {
-    for (int i = 0; i < 64; i++) {
-        std::cout << bitboard[i];
-        if ((i+1)%8 == 0 && i != 0){
+void printbitboard(uint64_t bitboard) {
+    for (int i = 63; i >= 0; i--) {
+        std::cout << ((bitboard >> i) & 1);
+        if ((i)%8 == 0 && i != 63){
             std::cout << std::endl;
         }
         else{
@@ -26,11 +26,12 @@ void printbitboard(uint64_t bitboard[64]) {
 
 void onLoad(){
     // Iterate through each possible position for the pieces to move
-    for (int i = 0; i < 8; i++){
+    /*for (int i = 0; i < 8; i++){
         for (int j = 0; j < 8; j++){
+            // SMagic newStruct;
             // VARIABLE DECLARATION: Find the variables and assign them to bitboards
-            uint64_t* bishopBitBoard = arrBishop[i][j];
-            uint64_t* arrRookBitBoard = arrRook[i][j];
+            uint64_t& bishopBitBoard = bishopMagics[i][j].mask;
+            uint64_t& arrRookBitBoard = rookMagics[i][j].mask;//arrRook[i][j];
             // BISHOP CALCULATION: Loop through all four diagonal directions
             for (int left = -1; left != 3; left +=2){
                 for (int down = -1; down != 3; down +=2){
@@ -59,7 +60,7 @@ void onLoad(){
         }
     }
     findRookMagics();
-    findBishopMagics();
+    findBishopMagics();*/
 }
 
 void findRookMagics() {
