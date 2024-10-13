@@ -14,9 +14,16 @@
     printbitboard(arrOnes);
 }*/
 
+/*TEST_CASE("Start Up", "[table][debug]"){
+    onLoad(); 
+}*/
+
 TEST_CASE("Start Up", "[table][debug]"){
     onLoad();
-    //printbitboard(arrBishop); 
+}
+
+TEST_CASE("Start Up", "[table][latest]"){
+    onLoad();
 }
 
 TEST_CASE("Knight Table", "[table][knight]") {

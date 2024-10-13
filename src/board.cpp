@@ -55,13 +55,16 @@ void onLoad(){
                     arrRookBitBoard[y * 8 + j] = 1;
                 }
             }
-            //printbitboard(bishopBitBoard);
+            printbitboard(bishopBitBoard);
         }
     }
+    findRookMagics();
+    findBishopMagics();
 }
 
 void findRookMagics() {
     // Use a bitboard to go through all positions and genreate the SMagic
+    
 }
 
 void findBishopMagics() {
