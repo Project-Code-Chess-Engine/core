@@ -4,15 +4,15 @@
 
 
 // Uncomment if necessary. Tests a bitboard
-/*TEST_CASE("Print bitboard", "[table][debug]"){
-    uint64_t arrZeros[64] = {};
-    std::fill(arrZeros, arrZeros + 64, 0);
+TEST_CASE("Print bitboard", "[table][debug]"){
+    uint64_t arrZeros = 0ull;
+    //std::fill(arrZeros, arrZeros + 64, 0);
     printbitboard(arrZeros);
 
-    uint64_t arrOnes[64] = {};
-    std::fill(arrOnes, arrOnes + 64, 1);
+    uint64_t arrOnes = ~0ull;
+    //std::fill(arrOnes, arrOnes + 64, 1);
     printbitboard(arrOnes);
-}*/
+}
 
 /*TEST_CASE("Start Up", "[table][debug]"){
     onLoad(); 

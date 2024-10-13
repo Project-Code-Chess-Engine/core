@@ -26,13 +26,13 @@ struct SMagic {
     // the moves that can be made
     std::unique_ptr<uint64_t[]> moves;
     // the occupancy mask
-    uint64_t mask;
+    uint64_t mask = 0;
     // the mask representing the square
-    uint64_t square;
+    uint64_t square = 0;
     // the number of significant bits
-    uint8_t bits;
+    uint8_t bits = 0;
     // the magic number (hard part is finding it)
-    uint8_t magic;
+    uint8_t magic = 0;
 };
 
 // table to store the rookMagics
@@ -68,4 +68,4 @@ uint64_t getPawnMoves(const Board& board, uint64_t position);
 void onLoad();
 
 // prints out the bitboard to the console
-void printbitboard();
+void printbitboard(uint64_t bitboard);
