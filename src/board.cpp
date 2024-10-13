@@ -21,6 +21,59 @@ void useMagic(const Board& board, const SMagic& magic) {
 void generateKnightTable() {
     // Use a bitboard to go through all of the positions and generate the places that the knight is able to move.
     // https://www.chessprogramming.org/Knight_Pattern
+    for(unsigned int i = 0; i < 8; ++i) {
+        for(unsigned int j = 0; j < 8; ++j) {
+            knightTable[i][j] = 0;
+            // soEaEa
+            if(i - 1 >= 0 && j + 2 <= 7) {
+                int k = (i-1) * 8 + j + 2;
+                knightTable[i][j] ^= 1ULL << k;
+            } 
+
+            // noEaEa
+            if(i + 1 <= 7 && j + 2 <= 7) {
+                int k = (i+1) * 8 + j + 2;
+                knightTable[i][j] ^= 1ULL << k;
+            }
+
+            //noNoEa
+            if(i + 2 <= 7 && j + 1 <= 7) {
+                int k = (i+2) * 8 + j + 1;
+                knightTable[i][j] ^= 1ULL << k;
+            }
+
+            //noNoSo
+            if(i + 2 <= 7 && j - 1 >= 0) {
+                int k = (i+2) * 8 + j -1;
+                knightTable[i][j] ^= 1ULL << k;
+            }
+
+            //noWeWe
+            if(i + 1 <= 7 && j -2 >= 0) {
+                int k = (i+1) * 8 + j - 2;
+                knightTable[i][j] ^= 1ULL << k;
+            }
+
+            //soWeWe
+            if(i - 1 >= 0 && j - 2 >= 0) {
+                int k = (i-1) * 8 + j - 2;
+                knightTable[i][j] ^= 1ULL << k;
+            }
+
+            //soSoWe
+            if(i - 2 >= 0 && j - 1 >= 0) {
+                int k = (i-2) * 8 + j - 1;
+                knightTable[i][j] ^= 1ULL << k;
+            }
+
+            //soSoEa
+            if(i - 2 >= 0 && j + 1 <= 7) {
+                int k = (i-2) * 8 + j + 1;
+                knightTable[i][j] ^= 1ULL << k;
+            }
+        }
+    }
+
 }
 
 void generateKingTable() {
