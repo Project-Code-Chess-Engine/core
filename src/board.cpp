@@ -55,7 +55,7 @@ void onLoad(){
                     arrRookBitBoard[y * 8 + j] = 1;
                 }
             }
-            //printbitboard(arrRookBitBoard);
+            //printbitboard(bishopBitBoard);
         }
     }
 }
