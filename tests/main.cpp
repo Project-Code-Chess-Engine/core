@@ -27,9 +27,9 @@ TEST_CASE("Load", "[table][latest]"){
 }
 
 TEST_CASE("Knight Table", "[table][knight]") {
-
+    generateKnightTable();
 }
 
 TEST_CASE("King Table", "[table][king]") {
-
+    
 }
