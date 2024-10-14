@@ -28,7 +28,7 @@ struct SMagic {
     // the occupancy mask
     uint64_t mask = 0;
     // the mask representing the square
-    uint64_t square = 0;
+    uint64_t square;
     // the number of significant bits
     uint8_t bits = 0;
     // the magic number (hard part is finding it)
@@ -64,7 +64,7 @@ void generateKingTable();
 // gets the moves that can be done by a pawn
 uint64_t getPawnMoves(const Board& board, uint64_t position);
 
-// creates the magic bitboards to storage
+// creates the magic bitboards to storage, including all pieces
 void onLoad();
 
 // prints out the bitboard to the console

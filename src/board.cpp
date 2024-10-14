@@ -7,9 +7,6 @@
 // https://www.chessprogramming.org/Looking_for_Magics
 // This page explains the way to calculate magics
 
-//uint64_t arrBishop[8][8][64] = {{{0}}};
-//uint64_t arrRook[8][8][64] = {{{0}}};
-
 // prints the current bitboard to console for debug purposes
 void printbitboard(uint64_t bitboard) {
     for (int i = 63; i >= 0; i--) {
@@ -26,19 +23,19 @@ void printbitboard(uint64_t bitboard) {
 
 void onLoad(){
     // Iterate through each possible position for the pieces to move
-    /*for (int i = 0; i < 8; i++){
+    for (int i = 0; i < 8; i++){
         for (int j = 0; j < 8; j++){
             // SMagic newStruct;
             // VARIABLE DECLARATION: Find the variables and assign them to bitboards
-            uint64_t& bishopBitBoard = bishopMagics[i][j].mask;
-            uint64_t& arrRookBitBoard = rookMagics[i][j].mask;//arrRook[i][j];
+            SMagic& bishopBitBoard = bishopMagics[i][j];
+            SMagic& arrRookBitBoard = rookMagics[i][j];
             // BISHOP CALCULATION: Loop through all four diagonal directions
             for (int left = -1; left != 3; left +=2){
                 for (int down = -1; down != 3; down +=2){
                     int curRow = i + left; int curCol = j + down;
                     while (curRow >= 0 && curRow < 8 && curCol >= 0 && curCol < 8){
                         // Update the value
-                        bishopBitBoard[curRow * 8 + curCol] = 1;
+                        bishopBitBoard.mask += 1ull << (63 - (curRow * 8 + curCol));
                         // Increment the values
                         curRow += left;
                         curCol += down;
@@ -48,19 +45,22 @@ void onLoad(){
             // ROOK CALCULATION: Loop through all four directions in a straight line
             for (int x = 0; x < 8; x++){ // Calculates LEFT <-> RIGHT moves
                 if (x != j){
-                    arrRookBitBoard[i * 8 + x] = 1;
+                    arrRookBitBoard.mask += 1ull << (63 - (i * 8 + x));
                 }
             }
             for (int y = 0; y < 8; y++){ // Calculates BOTTOM <-> TOP moves
                 if (y != i){
-                    arrRookBitBoard[y * 8 + j] = 1;
+                    arrRookBitBoard.mask += 1ull << (63 - (y * 8 + j));
                 }
             }
-            printbitboard(bishopBitBoard);
+            // SQUARE ASSIGNMENT: Assign the square bitboard variable
+            arrRookBitBoard.square = 1ull << (63 - (i * 8 + j));
+            bishopBitBoard.square = 1ull << (63 - (i * 8 + j));
+            printbitboard(arrRookBitBoard.square);
         }
     }
     findRookMagics();
-    findBishopMagics();*/
+    findBishopMagics();
 }
 
 void findRookMagics() {
