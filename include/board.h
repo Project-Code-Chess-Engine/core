@@ -1,6 +1,12 @@
 #pragma once
 #include <array>
 #include <cstdint>
+#include <bit>
+#include <random>
+#include <vector>
+#include <stack>
+#include <algorithm>
+#include <bit>
 #include <memory>
 
 // extern "C" is used here to allow non-c++ programs to use these sturcts and functions
@@ -68,4 +74,11 @@ uint64_t getPawnMoves(const Board& board, uint64_t position);
 void onLoad();
 
 // prints out the bitboard to the console
-void printbitboard(uint64_t bitboard);
+void printbitboard(uint64_t bitboard, uint64_t origin = 0ull);
+
+uint64_t getRookAttacks(uint64_t sq, uint64_t occupancy);
+
+uint64_t getBishopAttacks(uint64_t sq, uint64_t occupancy);
+
+constexpr uint64_t FULL_MASK = 0xFFFFFFFFFFFFFFFFULL; // 64-bit full bitboard mask
+constexpr uint64_t EMPTY_MASK = 0x0; // No blockers, all squares are empty
