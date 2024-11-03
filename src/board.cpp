@@ -107,61 +107,80 @@ uint64_t calculateBishopAttacks(int sq, uint64_t occupancy) {
     return attacks;
 }
 
-void findMagicNumber(SMagic& magicStruct, bool bishop) {
-    // printf("starting findMagicNumber\n");
-    uint64_t bit_copy = magicStruct.mask;
-    std::vector<uint8_t> placements;
-    while (bit_copy){
-        uint8_t position = std::countr_zero(bit_copy);
-        placements.push_back(position);
-        bit_copy ^= 1ull << position;
-    }
-    std::queue<std::pair<uint64_t, int>> s;
-    std::set<uint64_t> usedVec;
+double randomnumber() {
+    // Making rng static ensures that it stays the same
+    // Between different invocations of the function
+    static std::default_random_engine rng;
 
-    s.push({magicStruct.mask, 1});
-    s.push({magicStruct.mask ^ 1ULL << placements[0], 1});
-
-    while (not s.empty()) {
-        auto& curr = s.front();
-        usedVec.insert(curr.first);
-        if (curr.second < placements.size()) {
-            s.push({curr.first, curr.second + 1});
-            s.push({curr.first ^ 1ULL << placements[curr.second], curr.second + 1});
-        }
-        s.pop();
-    }
-    
-    bool found = true;
-    uint64_t magic = 0;
-    
-    for (int trials = 0; trials < 100000; trials++){
-        std::set<int> set;
-        for (const auto& b: usedVec){
-            int shift = (trials * b) >> magicStruct.bits;
-            if (set.contains(shift)){
-                found = false;
-                break;
-            }
-            set.insert(shift);
-        }
-        if (found){
-            magic = trials;
-            break;
-        }
-    }
-
-    assert(found && ("Magic Number Calculation Failed for bishop/rook"));
-
-    for (const auto& b: usedVec){
-        uint64_t index = (magic * b) >> magicStruct.bits;
-        magicStruct.moves[index] = b;
-    }
-    // printf("finished findMagicNumber\n");
-    // printbitboard(magic);
-    magicStruct.magic = magic;
+    std::uniform_real_distribution<double> dist(0.0, 1.0); 
+    return dist(rng); 
 }
 
+void findMagicNumber(SMagic& magicStruct, bool bishop) {
+    // Step 1: Collect bit positions from the mask
+    uint64_t bit_copy = magicStruct.mask;
+    std::vector<int> placements;
+    while (bit_copy) {
+        int position = std::countr_zero(bit_copy);
+        placements.push_back(position);
+        bit_copy &= bit_copy - 1; // Clear the lowest set bit
+    }
+
+    // Step 2: Generate all blocker combinations
+    std::vector<uint64_t> blocker_boards;
+    int num_bits = placements.size();
+    int num_combinations = 1 << num_bits;
+    for (int i = 0; i < num_combinations; ++i) {
+        uint64_t blocker_board = 0;
+        for (int j = 0; j < num_bits; ++j) {
+            if (i & (1 << j)) {
+                blocker_board |= 1ULL << placements[j];
+            }
+        }
+        blocker_boards.push_back(blocker_board);
+    }
+
+    // Step 3: Try to find a magic number
+    std::random_device rd;
+    std::mt19937_64 rng(rd());
+    std::uniform_int_distribution<uint64_t> dist(0, UINT64_MAX);
+
+    bool found = false;
+    uint64_t magic = 0;
+
+    for (int attempts = 0; attempts < 1000000 && !found; ++attempts) {
+        magic = dist(rng) & dist(rng) & dist(rng); // Improve randomness
+        if (__builtin_popcountll((magic * magicStruct.mask) >> 56) < 6) continue; // Heuristic check
+
+        std::set<uint64_t> used_indices;
+        bool collision = false;
+
+        for (const auto& blockers : blocker_boards) {
+            uint64_t index = (blockers * magic) >> (64 - magicStruct.bits);
+            if (used_indices.count(index)) {
+                collision = true;
+                break;
+            }
+            used_indices.insert(index);
+        }
+
+        if (!collision) {
+            found = true;
+        }
+    }
+
+    if (!found) {
+        throw std::runtime_error("Magic Number Calculation Failed for Bishop/Rook");
+    }
+
+    // Step 4: Store the magic number and prepare moves
+    magicStruct.magic = magic;
+    magicStruct.moves.resize(blocker_boards.size());
+    for (const auto& blockers : blocker_boards) {
+        uint64_t index = (blockers * magic) >> (magicStruct.bits);
+        magicStruct.moves[index] = blockers;
+    }
+}
 
 uint64_t getRookAttacks(uint64_t square, uint64_t occupancy) {
     const SMagic& rookMagic = rookMagics[square / 8][square % 8];

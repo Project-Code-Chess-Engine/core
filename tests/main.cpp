@@ -53,10 +53,6 @@ TEST_CASE("Bitboard blockers: zeros", "[table][debug]") {
             const uint64_t square = rookBitBoard.square;
             const uint64_t occupancy = EMPTY_MASK; // Empty occupancy bitboard (no blockers)
 
-            // Mask the occupancy for rook and bishop attacks
-            uint64_t rookOccupancy = occupancy & rookBitBoard.mask;
-            uint64_t bishopOccupancy = occupancy & bishopBitBoard.mask;
-
             // Calculate index for rook attacks
             uint64_t rookAttacks = getRookAttacks(rookBitBoard.square, EMPTY_MASK);  // Access attacks array
 

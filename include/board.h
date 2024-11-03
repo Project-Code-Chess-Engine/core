@@ -35,7 +35,7 @@ extern "C" {
 // a magic square
 struct SMagic {
     // the moves that can be made
-    std::unique_ptr<uint64_t[]> moves;
+    std::vector<uint64_t> moves; // std::unique_ptr<uint64_t[]> moves;
     // the occupancy mask
     uint64_t mask = 0;
     // the mask representing the square
