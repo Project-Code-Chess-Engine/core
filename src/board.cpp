@@ -107,8 +107,8 @@ uint64_t calculateBishopAttacks(int sq, uint64_t occupancy) {
     return attacks;
 }
 
-uint64_t findMagicNumber(SMagic& magicStruct, int relevantBits, bool bishop) {
-    printf("starting findMagicNumber\n");
+void findMagicNumber(SMagic& magicStruct, bool bishop) {
+    // printf("starting findMagicNumber\n");
     uint64_t bit_copy = magicStruct.mask;
     std::vector<uint8_t> placements;
     while (bit_copy){
@@ -116,62 +116,67 @@ uint64_t findMagicNumber(SMagic& magicStruct, int relevantBits, bool bishop) {
         placements.push_back(position);
         bit_copy ^= 1ull << position;
     }
-    std::stack<std::pair<uint64_t, int>> s;
-    std::vector<uint64_t> usedVec;
+    std::queue<std::pair<uint64_t, int>> s;
+    std::set<uint64_t> usedVec;
 
     s.push({magicStruct.mask, 1});
     s.push({magicStruct.mask ^ 1ULL << placements[0], 1});
 
     while (not s.empty()) {
-        auto& curr = s.top();
-        usedVec.push_back(curr.first);
+        auto& curr = s.front();
+        usedVec.insert(curr.first);
         if (curr.second < placements.size()) {
-            s.push({magicStruct.mask, curr.second + 1});
-            s.push({magicStruct.mask ^ 1ULL << placements[curr.second], curr.second + 1});
+            s.push({curr.first, curr.second + 1});
+            s.push({curr.first ^ 1ULL << placements[curr.second], curr.second + 1});
         }
         s.pop();
     }
-
-    for (int trials = 0; trials < 10000; trials++){
-
+    
+    bool found = true;
+    uint64_t magic = 0;
+    
+    for (int trials = 0; trials < 100000; trials++){
+        std::set<int> set;
+        for (const auto& b: usedVec){
+            int shift = (trials * b) >> magicStruct.bits;
+            if (set.contains(shift)){
+                found = false;
+                break;
+            }
+            set.insert(shift);
+        }
+        if (found){
+            magic = trials;
+            break;
+        }
     }
-    printf("finished findMagicNumber\n");
-    return 0;
+
+    assert(found && ("Magic Number Calculation Failed for bishop/rook"));
+
+    for (const auto& b: usedVec){
+        uint64_t index = (magic * b) >> magicStruct.bits;
+        magicStruct.moves[index] = b;
+    }
+    // printf("finished findMagicNumber\n");
+    // printbitboard(magic);
+    magicStruct.magic = magic;
 }
 
 
 uint64_t getRookAttacks(uint64_t square, uint64_t occupancy) {
     const SMagic& rookMagic = rookMagics[square / 8][square % 8];
 
-    // Step 1: Mask occupancy with the rook's mask
-    uint64_t maskedOccupancy = occupancy & rookMagic.mask;
-    
-    // Step 2: Calculate index using multiplication by magic number and shifting
-    uint64_t index = (maskedOccupancy * rookMagic.magic) >> (64 - rookMagic.bits);
-    
-    // Step 3: Retrieve the precomputed attack bitboard
-    if (index < (1ull << rookMagic.bits)) {
-        return rookMagic.moves[index];
-    } else {
-        return 0;  // Edge case, return an empty attack if out of bounds
-    }
+    const uint64_t index = (rookMagic.magic * occupancy) >> rookMagic.bits;
+
+    return rookMagic.moves[index];
 }
 
 uint64_t getBishopAttacks(uint64_t square, uint64_t occupancy) {
     const SMagic& bishopMagic = bishopMagics[square / 8][square % 8];
 
-    // Step 1: Mask occupancy with the bishop's mask
-    uint64_t maskedOccupancy = occupancy & bishopMagic.mask;
-    
-    // Step 2: Calculate index using multiplication by magic number and shifting
-    uint64_t index = (maskedOccupancy * bishopMagic.magic) >> (64 - bishopMagic.bits);
-    
-    // Step 3: Retrieve the precomputed attack bitboard
-    if (index < (1ull << bishopMagic.bits)) {
-        return bishopMagic.moves[index];
-    } else {
-        return 0;  // Edge case, return an empty attack if out of bounds
-    }
+    const uint64_t index = (bishopMagic.magic * occupancy) >> bishopMagic.bits;
+
+    return bishopMagic.moves[index];
 }
 
 
@@ -211,8 +216,8 @@ void onLoad() {
             bishopBitBoard.square = 1ull << (i * 8 + j);
 
             // Calculate magic numbers for rooks and bishops
-            rookBitBoard.magic = findMagicNumber(rookBitBoard, rookBitBoard.bits, false);
-            bishopBitBoard.magic = findMagicNumber(bishopBitBoard, bishopBitBoard.bits, true);
+            findMagicNumber(rookBitBoard, false);
+            findMagicNumber(bishopBitBoard, true);
         }
     }
     std::cout << std::endl;

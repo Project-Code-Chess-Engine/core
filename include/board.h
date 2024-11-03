@@ -5,9 +5,14 @@
 #include <random>
 #include <vector>
 #include <stack>
+#include <queue>
+#include <set>
+#include <cassert>
 #include <algorithm>
 #include <bit>
 #include <memory>
+
+#define assertm(exp, msg) assert(((void)msg, exp))
 
 // extern "C" is used here to allow non-c++ programs to use these sturcts and functions
 extern "C" {
@@ -36,7 +41,7 @@ struct SMagic {
     // the mask representing the square
     uint64_t square;
     // the number of significant bits
-    uint8_t bits = 0;
+    uint8_t bits = 52;
     // the magic number (hard part is finding it)
     uint8_t magic = 0;
 };

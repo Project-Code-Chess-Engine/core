@@ -42,33 +42,33 @@ TEST_CASE("King Table", "[table][king]") {
 
 }
 
-// TEST_CASE("Bitboard blockers: zeros", "[table][debug]") {
-//     // Loop through all squares on the chessboard
-//     for (int i = 0; i < 8; ++i) {
-//         for (int j = 0; j < 8; ++j) {
-//             // Get rook and bishop magic structs for the current square
-//             SMagic& rookBitBoard = rookMagics[i][j];
-//             SMagic& bishopBitBoard = bishopMagics[i][j];
+TEST_CASE("Bitboard blockers: zeros", "[table][debug]") {
+    // Loop through all squares on the chessboard
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            // Get rook and bishop magic structs for the current square
+            SMagic& rookBitBoard = rookMagics[i][j];
+            SMagic& bishopBitBoard = bishopMagics[i][j];
 
-//             const uint64_t square = rookBitBoard.square;
-//             const uint64_t occupancy = EMPTY_MASK; // Empty occupancy bitboard (no blockers)
+            const uint64_t square = rookBitBoard.square;
+            const uint64_t occupancy = EMPTY_MASK; // Empty occupancy bitboard (no blockers)
 
-//             // Mask the occupancy for rook and bishop attacks
-//             uint64_t rookOccupancy = occupancy & rookBitBoard.mask;
-//             uint64_t bishopOccupancy = occupancy & bishopBitBoard.mask;
+            // Mask the occupancy for rook and bishop attacks
+            uint64_t rookOccupancy = occupancy & rookBitBoard.mask;
+            uint64_t bishopOccupancy = occupancy & bishopBitBoard.mask;
 
-//             // Calculate index for rook attacks
-//             uint64_t rookAttacks = getRookAttacks(rookBitBoard.square, EMPTY_MASK);  // Access attacks array
+            // Calculate index for rook attacks
+            uint64_t rookAttacks = getRookAttacks(rookBitBoard.square, EMPTY_MASK);  // Access attacks array
 
-//             std::cout << "Rook attacks from (" << i << ", " << j << ") on an empty board:\n";
-//             printbitboard(rookAttacks, rookBitBoard.square);
+            std::cout << "Rook attacks from (" << i << ", " << j << ") on an empty board:\n";
+            printbitboard(rookAttacks, rookBitBoard.square);
 
-//             // Calculate index for bishop attacks
-//             uint64_t bishopAttacks = getBishopAttacks(bishopBitBoard.square, EMPTY_MASK);
+            // Calculate index for bishop attacks
+            uint64_t bishopAttacks = getBishopAttacks(bishopBitBoard.square, EMPTY_MASK);
 
-//             std::cout << "Bishop attacks from (" << i << ", " << j << ") on an empty board:\n";
-//             printbitboard(bishopAttacks, bishopBitBoard.square);
+            std::cout << "Bishop attacks from (" << i << ", " << j << ") on an empty board:\n";
+            printbitboard(bishopAttacks, bishopBitBoard.square);
 
-//         }
-//     }
-// }
+        }
+    }
+}
