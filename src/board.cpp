@@ -76,7 +76,7 @@ uint64_t calculateRookAttacks(int sq, uint64_t occupancy) {
 }
 
 // Function to calculate bishop attacks for a given occupancy
-uint64_t calculateBishopAttacks(int sq, uint64_t occupancy) {
+uint64_t calculateRookAttacks(int sq, uint64_t occupancy) {
     uint64_t attacks = 0;
     int rank = sq / 8, file = sq % 8;
 
