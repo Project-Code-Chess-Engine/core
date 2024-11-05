@@ -89,4 +89,4 @@ constexpr uint64_t FULL_MASK = 0xFFFFFFFFFFFFFFFFULL; // 64-bit full bitboard ma
 constexpr uint64_t EMPTY_MASK = 0x0; // No blockers, all squares are empty
 
 uint64_t calculateRookAttacks(int sq, uint64_t occupancy);
-uint64_t calculateRookAttacks(int sq, uint64_t occupancy);
+uint64_t calculateBishopAttacks(int sq, uint64_t occupancy);
