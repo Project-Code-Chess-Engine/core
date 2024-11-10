@@ -41,9 +41,11 @@ struct SMagic {
     // the mask representing the square
     uint64_t square;
     // the number of significant bits
-    uint8_t bits = 52;
+    uint8_t bits = 14;
     // the magic number (hard part is finding it)
     uint8_t magic = 0;
+    // integer refernece
+    uint8_t index = 0;
 };
 
 // table to store the rookMagics
@@ -81,9 +83,9 @@ void onLoad();
 // prints out the bitboard to the console
 void printbitboard(uint64_t bitboard, uint64_t origin = 0ull);
 
-uint64_t getRookAttacks(uint64_t sq, uint64_t occupancy);
+uint64_t getRookAttacks(int square, uint64_t occupancy);
 
-uint64_t getBishopAttacks(uint64_t sq, uint64_t occupancy);
+uint64_t getBishopAttacks(int square, uint64_t occupancy);
 
 constexpr uint64_t FULL_MASK = 0xFFFFFFFFFFFFFFFFULL; // 64-bit full bitboard mask
 constexpr uint64_t EMPTY_MASK = 0x0; // No blockers, all squares are empty

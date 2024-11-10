@@ -54,13 +54,13 @@ TEST_CASE("Bitboard blockers: zeros", "[table][debug]") {
             const uint64_t occupancy = EMPTY_MASK; // Empty occupancy bitboard (no blockers)
 
             // Calculate index for rook attacks
-            uint64_t rookAttacks = getRookAttacks(rookBitBoard.square, EMPTY_MASK);  // Access attacks array
+            uint64_t rookAttacks = getRookAttacks(rookBitBoard.index, EMPTY_MASK);  // Access attacks array
 
             std::cout << "Rook attacks from (" << i << ", " << j << ") on an empty board:\n";
             printbitboard(rookAttacks, rookBitBoard.square);
 
             // Calculate index for bishop attacks
-            uint64_t bishopAttacks = getBishopAttacks(bishopBitBoard.square, EMPTY_MASK);
+            uint64_t bishopAttacks = getBishopAttacks(bishopBitBoard.index, EMPTY_MASK);
 
             std::cout << "Bishop attacks from (" << i << ", " << j << ") on an empty board:\n";
             printbitboard(bishopAttacks, bishopBitBoard.square);
